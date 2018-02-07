@@ -1,10 +1,13 @@
 language: java
-# Run on OSX and Linux
 matrix:
   include:
-    - os: linux
-      jdk: openjdk8
-    - os: osx
-      #osx_image: beta-xcode6.1
-# Run Integration tests
-script: "mvn test && mvn clean verify"
+  - jdk: oraclejdk7
+    os: linux
+  - os: osx
+script:
+- touch /tmp/NOW
+- echo GIBSTUDYSTART $(date)
+- mvn test && mvn clean verify
+- echo GIBSTUDYEND $(date)
+- cd $TRAVIS_BUILD_DIR
+- echo TESTNUM $(find . -name TEST-*.xml -newer /tmp/NOW | wc -l)
